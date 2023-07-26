@@ -11,6 +11,14 @@
 # production
 /build
 
+/Back-end/node_modules
+
+# /Back-end/package-lock.json
+# /Back-end/package.json
+
+# package-lock.json
+# package.json
+
 # misc
 .DS_Store
 .env.local
