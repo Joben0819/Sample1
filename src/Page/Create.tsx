@@ -1,44 +1,52 @@
-import React,{useState} from 'react'
-import { useSelector, useDispatch } from 'react-redux';
-import {Back, DataSet} from '../Api/index'
-import {setName} from '../reducers/counter'
-import { RootState } from '../store/index';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
+import { DataSet } from '../Api/index';
 
 function Create() {
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [image, setImage] = useState<File | null>(null);
 
-  const [id, setid] = useState('')
-  const [title, settitle] = useState('')
-  const [cont, setcont] = useState('') 
-  const dispatch = useDispatch()
-  const {name } = useSelector((state: RootState) => state.counter);
-  const [named, setname] = useState('')
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-  function data(a: string, b: string , c: string ){
-    window.location.reload();
-    setname(a)
-    var p = Number(c)
-    DataSet(p, a, b)
-  }
+    try {
+      const response = await DataSet(title, content, image); // Pass the File object directly
+
+      // Handle successful post creation or redirect to another page
+      console.log('Response:', response.data);
+    } catch (error) {
+      console.error('Error creating post:', error);
+    }
+  };
+
+  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+
+  const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setContent(e.target.value);
+  };
+
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+    setImage(file);
+  };
 
   return (
     <div>
       <h1>Create</h1>
-      
-      <input type="text" onChange={(e) => { settitle(e.target.value)}} />
-      <input type="text" onChange={(e) => { setcont(e.target.value)}} />
-      <input type="number" onChange={(e) => { setid(e.target.value)}} />
-
-      <p
-        onClick={() => {
-          dispatch(setName(named))
-          data(title, cont, id )
-        }}
-        >
-          Edit <code>{name}</code> .
-        </p>
-
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="title">Title</label>
+        <input type="text" value={title} onChange={handleTitleChange} />
+        <label htmlFor="content">Content</label>
+        <textarea value={content} onChange={handleContentChange} />
+        <label htmlFor="image">Image</label>
+        <input type="file" onChange={handleImageChange} />
+        {image && <img src={URL.createObjectURL(image)} alt="Selected" style={{ width: '200px', height: 'auto' }} />}
+        <button type="submit">Create Post</button>
+      </form>
     </div>
-  )
+  );
 }
 
-export default Create
+export default Create;

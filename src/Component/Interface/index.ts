@@ -15,9 +15,14 @@ export interface Axios {
 }
 
 export interface DataPart {
-    id: number;
     title: string;
     content: string;
+    image: string;
     createdAt: string;
     updatedAt: string;
+}
+
+export interface Head{
+    Navbar: string    
+    to: string
 }

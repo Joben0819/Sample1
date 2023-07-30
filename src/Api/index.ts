@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosPromise } from 'axios';
-import { DataPart } from '../Interface/index';
+import { DataPart } from '../Component/Interface/index';
 
 const Request: AxiosInstance = axios.create({
   baseURL: 'http://localhost:3005',
@@ -15,19 +15,18 @@ export function Back(): AxiosPromise<any> {
   });
 }
 
-export function DataSet(id: number ,name: string, content: string): AxiosPromise<any> {
-    var data: DataPart = {
-        id: id,
-        title: name,
-        content: content,
-        createdAt: "2023-07-23T09:28:16",
-        updatedAt: "2023-07-23T09:28:16.0"
-    }
-    
-    return Request({
-      url: '/posts', // Complete URL to make the API call
-      method: 'post',
-      responseType: 'json',
-      data
-    });
+export function DataSet(name: string, content: string, image: File | null): AxiosPromise<any> {
+  const formData = new FormData();
+  formData.append('title', name);
+  formData.append('content', content);
+  if (image) {
+    formData.append('image', image, image.name); // Append the image with its name
+  }
+
+  return Request({
+    url: 'posts/upload', // Complete URL to make the API call
+    method: 'post',
+    responseType: 'json',
+    data: formData,
+  });
 }
