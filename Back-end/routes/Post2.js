@@ -15,9 +15,9 @@ const upload = multer({ storage });
 
 
 router.get('/', async (req, res) => {
-  const listofpart = await Post.findAll()
-  res.json(listofpart);
-}
+    const listofpart = await Post.findAll()
+    res.json(listofpart);
+  }
 );
 
 // API endpoint to handle image upload
@@ -34,6 +34,7 @@ router.post('/upload', upload.single('image'), async (req, res) => {
     const newPost = await Post.create({
       title: req.body.title,
       content: req.body.content,
+      email: req.body.email,
       image: image, // Assuming you have an 'image' field in your Post model
     });
 

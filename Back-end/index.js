@@ -1,22 +1,22 @@
-const express = require('express');
-const app = express();
-const PORT = 3005;
-var cors = require('cors')
-app.use(express.json());
+// const express = require('express');
+// const app = express();
+// const PORT = 3005;
+// var cors = require('cors')
+// app.use(express.json());
 
-app.use(cors())
+// app.use(cors())
 
 
-const db = require('./models');
+// const db = require('./models');
 
-const postrouter = require('./routes/Post2');
-app.use('/posts', postrouter);
+// const postrouter = require('./routes/Post2');
+// app.use('/posts', postrouter);
 
-db.sequelize.sync().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-  });
-});
+// db.sequelize.sync().then(() => {
+//   app.listen(PORT, () => {
+//     console.log(`Server is running on port ${PORT}`);
+//   });
+// });
 
 // app.get('/1', (req, res) => {
 //   // Correct usage of res.json() inside the route handler
@@ -25,48 +25,82 @@ db.sequelize.sync().then(() => {
 
 
 // const { MongoClient } = require('mongodb');
-// const express = require('express');
-// const app = express();
-
-// const url = 'mongodb+srv://neboj08:ZAC08191997@savers.omk0bhy.mongodb.net/?retryWrites=true&w=majority'; 
+const mongoose = require('mongoose')
+const express = require('express');
+const app = express();
+const ExampleModel = require('./model/exampleModel'); // Import the model
+const url = 'mongodb+srv://neboj08:AnneKathleen0601@savers.omk0bhy.mongodb.net/Market-Place?retryWrites=true&w=majority'; 
 // const dbName = 'Id'; 
-// const PORT = 3000; 
+const PORT = 3000; 
+const postrouter = require('./routes/Post3');
+var cors = require('cors')
+app.use(express.json());
 
-// // Step 1: Connect to MongoDB
-// MongoClient.connect(url, { useUnifiedTopology: true }, (err, client) => {
-//   if (err) {
-//     console.error('Error connecting to MongoDB:', err);
+app.use(cors())
+     
+
+// const multer = require('multer');
+// const path = require('path');
+
+// const storage = multer.diskStorage({
+//     destination: './uploads2',
+//     filename: (req, file, callback) => {
+//       callback(null, Date.now() + path.extname(file.originalname));
+//     },
+// });
+
+// const upload = multer({ storage });
+
+async function connect(){
+  try{
+    await mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
+    console.log('connecteds')
+  }
+  catch(error){
+    console.log(error)
+  }
+}
+
+connect();
+
+app.use('/posts', postrouter);
+
+// app.get('/data', async (req, res) => {
+//   try {
+//     const data = await ExampleModel.find();
+//     res.json(data);
+//   } catch (error) {
+//     res.status(500).json({ error: 'Error retrieving data' });
+//   }
+// });
+
+// app.post('/upload', upload.single('image'), async (req, res) => {
+//   if (!req.file) {
+//     res.status(400).json({ message: 'No image file received.' });
 //     return;
 //   }
 
-//   // const db = client.db(dbName);
-//   console.log('Connected to MongoDB successfully!');
+//   const image = req.file.filename;
+//   try {
+//     // Create a new document using the Mongoose model
+//     const newDocument = new ExampleModel({
+//       title: req.body.title,
+//       content: req.body.content,
+//       email: req.body.email,
+//       image: image, 
+//     });
 
-//   // Step 2: Perform database operations using the "db" object
-//   // Example: Insert a document into the "users" collection
-//   // const collection = db.collection('Id');
-//   // const newUser = { name: 'John Doe', age: 30, email: 'john.doe@example.com' };
-  
-//   // collection.insertOne(newUser, (err, result) => {
-//   //   if (err) {
-//   //     console.error('Error inserting document:', err);
-//   //   } else {
-//   //     console.log('Document inserted successfully:', result.insertedId);
-//   //   }
-//   // });
+//     // Save the document to the database
+//     await newDocument.save();
 
-//   // Step 3: Close the MongoDB connection when the server is shut down
-//   process.on('SIGINT', () => {
-//     client.close();
-//     console.log('MongoDB connection closed.');
-//     process.exit(0);
-//   });
-
-//   // Step 4: Start the server after the MongoDB connection is established
-//   app.listen(PORT, () => {
-//     console.log(`Server is running on port ${PORT}`);
-//   });
+//     res.status(201).json({ message: 'Document inserted successfully' });
+//   } catch (error) {
+//     res.status(500).json({ error: 'Error inserting document' });
+//   }
 // });
 
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
 

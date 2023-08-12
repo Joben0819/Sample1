@@ -15,6 +15,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    email: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
     image: { // Add the 'image' field to the model definition
       type: DataTypes.STRING, // Assuming the filename of the image is stored as a string
       allowNull: true, // Set to true if the image field is optional
