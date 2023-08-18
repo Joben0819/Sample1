@@ -14,12 +14,17 @@ export interface Axios {
     headers: {'X-Custom-Header': string, "Access-Control-Allow-Origin": string, }
 }
 
+export interface Sample {
+    image : string;
+    text: string;
+}
+
 export interface DataPart {
     title: string;
     content: string;
     image: string;
-    createdAt: string;
-    updatedAt: string;
+    email: string;
+    id: number;
 }
 
 export interface Head{

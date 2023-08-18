@@ -11,7 +11,12 @@
 # production
 /build
 
+node_modules
+
 /Back-end/node_modules
+
+/Back-end/node_modules
+
 
 # /Back-end/package-lock.json
 # /Back-end/package.json

@@ -1,10 +1,14 @@
 import React,{useState, useEffect} from 'react'
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import {firebaseConfig} from '../Component/Firebase/Config'
+import {firebaseConfig} from './Config'
 import { getAuth, onAuthStateChanged, User, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-function Settings() {
-
+import { setName } from '../../reducers/counter';
+import { useDispatch, useSelector } from 'react-redux';
+// import { RootState } from '../../store/index';
+function Firebase() {
+    const dispatch = useDispatch()
+    // const names = useSelector((state: RootState) => setName(state.name));
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
     const auth = getAuth(app); // Get the Auth instance
@@ -13,6 +17,13 @@ function Settings() {
     useEffect(() => {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         setUser(user);
+        if (user?.email) {
+          dispatch(setName({ key: 'someKey', value: user.email }));
+          
+        }
+        else{
+          dispatch(setName({ key: 'someKey', value: 'undefined' }));
+        }
       });
   
       // Clean up the listener when the component unmounts
@@ -24,9 +35,11 @@ function Settings() {
       // Use the authentication provider of your choice (Google, Facebook, etc.)
       try {
         const provider = new GoogleAuthProvider();
+        
         await signInWithPopup(auth, provider);
+        window.location.reload()
       } catch (error) {
-        console.error('Error signing in:', error);
+        // console.error('Error signing in:', error);
       }
     };
   
@@ -34,16 +47,14 @@ function Settings() {
       try {
         await auth.signOut();
       } catch (error) {
-        console.error('Error signing out:', error);
+        // console.error('Error signing out:', error);
       }
     };
-    console.warn(user)
   return (
     <div>
-        <h1> Settings</h1>
         {user ? (
         <div>
-          <h1>Welcome, {user.displayName}!</h1>
+          <h5>{!user ? "" : user.displayName}!</h5>
           <button onClick={handleSignOut}>Sign Out</button>
         </div>
       ) : (
@@ -56,4 +67,4 @@ function Settings() {
   )
 }
 
-export default Settings
+export default Firebase

@@ -2,12 +2,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface CounterState {
     value: number;
-    name: string
+    name: {
+     [key: string]: string
+    };
   }
   
   const initialState: CounterState = {
     value: 0,
-    name: "Zac"
+    name: {}
   };
   
   const counterSlice = createSlice({
@@ -20,8 +22,9 @@ interface CounterState {
       decrement(state) {
         state.value--;
       },
-      setName: (state, action) => {
-        state.name = action.payload;
+      setName: (state, action: PayloadAction<{ key: string; value: string }>) => {
+        const { key, value } = action.payload;
+        state.name[key] = value;
       },
       // You can add more reducers here as needed
     },

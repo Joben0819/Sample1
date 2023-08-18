@@ -20,7 +20,8 @@ function Main() {
         <Route path="/Sales" element={<Sales />} />
         <Route path="/Settings" element={<Settings />} />
       </Routes>
-      <Footer />
+
+      {/* <Footer /> */}
     </div>
   );
 }

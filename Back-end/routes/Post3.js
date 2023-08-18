@@ -23,32 +23,34 @@ router.get('/', async (req, res) => {
     }
   });
   
-  router.post('/upload', upload.single('image'), async (req, res) => {
-    if (!req.file) {
-      res.status(400).json({ message: 'No image file received.' });
-      return;
-    }
-  
-    const image = req.file.filename;
+  // router.post('/upload', upload.single('image'), async (req, res) => {
 
-    var files = fs.readdirSync(require(`../uploads/${image}`))
-    try {
-      // Create a new document using the Mongoose model
-      const newDocument = new ExampleModel({
-        title: req.body.title,
-        content: req.body.content,
-        email: req.body.email,
-        image: image, 
-      });
+  //   const image = req.file.filename;
+
+  //   if (!req.file) {
+  //     res.status(400).json({ message: 'No image file received.', img: `${image}` });
+  //     return;
+  //   }
   
-      // Save the document to the database
-      await newDocument.save();
+  //   // var files = fs.readdirSync(require(`../uploads/${image}`))
+  //   try {
+  //     // Create a new document using the Mongoose model
+  //     const newDocument = new ExampleModel({
+  //       title: req.body.title,
+  //       content: req.body.content ,
+  //       email: req.body.email,
+  //       image: image, 
+  //     });
   
-      res.status(201).json({ message: 'Document inserted successfully' });
-    } catch (error) {
-      res.status(500).json({ error: 'Error inserting document' });
-    }
-  });
+  //     // Save the document to the database
+  //     await newDocument.save();
+  
+  //     res.status(201).json({ message: 'Document inserted successfully' });
+  //     res.status(204).json({ message: `${image}` });
+  //   } catch (error) {
+  //     res.status(500).json({ error: 'Error inserting document' });
+  //   }
+  // });
   
 
 module.exports = router;

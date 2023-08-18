@@ -24,6 +24,20 @@ body{
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+  justify-content: center;
+  /* flex-direction: column; */
+  width: 100%;
+  align-items: center;
+}
+.create{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 90%;
+  
+}
+.create .from{
+  width: 50%;
 }
 
 .App-logo {
@@ -53,6 +67,24 @@ body{
 
 .App-link {
   color: #61dafb;
+}
+
+.App .settings{
+  display: flex;
+  width: 100%;
+}
+
+.App .settings .navbar1{
+  width: 20%;
+}
+
+.App .settings .content{
+  width: 80%;
+}
+
+.App .settings .navbar1 ul li{
+  list-style: none;
+  text-align: start;
 }
 
 @keyframes App-logo-spin {
