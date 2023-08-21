@@ -2,7 +2,7 @@ import axios, { AxiosInstance, AxiosPromise } from 'axios';
 import { DataPart } from '../Component/Interface/index';
 
 const Request: AxiosInstance = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: 'http://52.55.241.2:8080',
   timeout: 1000000000000000,
   headers: { 'X-Custom-Header': 'foobar', 'Access-Control-Allow-Origin': '*' },
 });

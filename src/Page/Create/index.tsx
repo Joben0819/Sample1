@@ -12,6 +12,7 @@ function Create() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState<File | null>(null);
+  const [imageData, setImageData] = useState<string>('')
   const [part, setpart] = useState([])
 
   const { name } = useSelector((state: RootState) => state.counter);
@@ -19,13 +20,13 @@ function Create() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await DataSet(title, content, image, name.someKey); // Pass the File object directly
+      const response = await DataSet(title, content, image , name.someKey); // Pass the File object directly
 
       // Handle successful post creation or redirect to another page
       console.log('Response:',title, content, image, name.someKey);
     } catch (error) {
       console.error('Error creating post:', error);
-      console.log('Response:',title, content, image, name.someKey);
+      console.log('Response:',title, content, imageData, name.someKey);
     }
   };
 
@@ -40,7 +41,17 @@ function Create() {
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];
     setImage(file);
-  };
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (event.target && typeof event.target.result === 'string') {
+          setImageData(event.target.result); // Store base64 image data in state
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  }
 
   // console.warn(title, content)
 
@@ -50,27 +61,27 @@ function Create() {
     const inputElement2 = document.getElementById('exampleInputContent') as HTMLInputElement
     const inputElement3 = document.getElementById('exampleInputImage') as HTMLInputElement
     function Num(){
-      // setTimeout(function() {
-      //   window.location.reload();
-      // }, 5000);
+      setTimeout(function() {
+        window.location.reload();
+      }, 2000);
     }
 
     form?.addEventListener('click', Num)
 
   },[])
 
-  useEffect(() => {
-    Back().then( res => {
-      console.warn("des",res.data)
-      // const ages = res.data;
-      // const result = ages.filter(checkAdult);
+  // useEffect(() => {
+  //   Back().then( res => {
+  //     console.warn("des",res.data)
+  //     // const ages = res.data;
+  //     // const result = ages.filter(checkAdult);
       
-      // function checkAdult(card: { email: string }) {
-      //   return card.email === name.someKey ;
-      // }
-      // setpart(result)
-  })
-  },[])
+  //     // function checkAdult(card: { email: string }) {
+  //     //   return card.email === name.someKey ;
+  //     // }
+  //     // setpart(result)
+  // })
+  // },[])
   const peoples: DataPart[] = part
 
   // var excess : Sample = {
