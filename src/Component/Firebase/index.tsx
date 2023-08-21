@@ -5,6 +5,7 @@ import {firebaseConfig} from './Config'
 import { getAuth, onAuthStateChanged, User, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { setName } from '../../reducers/counter';
 import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store';
 // import { RootState } from '../../store/index';
 function Firebase() {
     const dispatch = useDispatch()
@@ -13,7 +14,7 @@ function Firebase() {
     const analytics = getAnalytics(app);
     const auth = getAuth(app); // Get the Auth instance
     const [user, setUser] = useState<User | null>(null);
-
+    const { name } = useSelector((state: RootState) => state.counter);
     useEffect(() => {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         setUser(user);

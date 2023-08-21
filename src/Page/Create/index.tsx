@@ -90,7 +90,7 @@ function Create() {
   // }
 
 
-  // console.warn(excess)
+  console.warn(name.someKey)
 
   return (
     <div className='create'>
